@@ -8,4 +8,4 @@ add_executable(algorithm_cpp main.cpp
         task6.cpp task7.cpp task8.cpp task9.cpp task10.cpp
         task11.cpp task12.cpp task13.cpp task14.cpp task15.cpp
         task16.cpp task17.cpp task18.cpp task19.cpp task20.cpp
-        task21.cpp)
+        task21.cpp task22.cpp)
