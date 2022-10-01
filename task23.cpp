@@ -2,10 +2,8 @@
 // Created by WarmCongee on 2022/9/28.
 //
 #include <iostream>
-#include <vector>
-#include <string>
 
-int main() {
+int task23() {
     int num[2];
     int n;
     int index = 0;
