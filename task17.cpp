@@ -6,52 +6,62 @@
 #include <vector>
 #include <string>
 
-using namespace std;
+int get_steps(std::vector<int>& nums, int sum, int target_sum, int front_flag, int back_flag){
+    int sum_head = 0;
+    int sum_tail = 0;
 
-int effectiveSub(std::vector<int>& nums);
+    if(sum == target_sum){
+        return 1;
+    } else if (sum > target_sum || front_flag > back_flag){
+        return -1;
+    } else {
+        int a = get_steps(nums, sum+nums[front_flag], target_sum, front_flag+1, back_flag);
+        int b = get_steps(nums, sum+nums[back_flag], target_sum, front_flag, back_flag-1);
 
-int task17() {
-    string str;
+        if(a == -1 && b == -1){
+            return -1;
+        } else if (a == -1) {
+            return b+1;
+        } else if (b == -1) {
+            return a+1;
+        } else {
+            return ((a<b)?a:b)+1;
+        }
+    }
+}
 
-    getline(cin, str);
 
-    vector<int> chars;
-    for(int i = 0; i < str.length(); i++){
-        if(str.at(i) != ' ' && str.at(i) != 'q') {
-            chars.push_back(str.at(i) - 48);
+int task17(){
+    int target_sum_;
+    std::cin>>target_sum_;
+    std::vector<int> nums;
+    int temp=0;
+    while(std::cin >> temp) {
+        nums.push_back(temp); //填充数据
+    }
+
+
+    if(nums.size()>=2){
+        int a = get_steps(nums, nums[0], target_sum_, 1, nums.size()-1);
+        int b = get_steps(nums, nums[nums.size()-1], target_sum_, 0, nums.size()-2);
+        if(a == -1 && b == -1){
+            std::cout<< -1;
+        } else if (a == -1) {
+            std::cout<< b;
+        } else if (b == -1) {
+            std::cout<< a;
+        } else {
+            std::cout<< ((a<b)?a:b);
+        }
+    } else {
+        if(nums[0] == target_sum_){
+            std::cout<<1;
+        } else {
+            std::cout<<-1;
         }
     }
 
 
-    std::cout<<effectiveSub(chars);
 
     return 0;
-
 }
-
-int effectiveSub(std::vector<int>& nums) {
-    int sum = nums.size();
-    int re = 0;
-    for(int i = 1; i <= sum; i++){
-
-        for(int j = 0; j <= sum-i; j++){
-            int count_0 = 0;
-            int count_1 = 0;
-            for(int k = j; k < j+i; k++){
-                if(nums[k]){
-                    count_1++;
-                } else {
-                    count_0++;
-                }
-            }
-
-            if(count_1>count_0){
-                re++;
-            }
-        }
-    }
-    return re;
-}
-
-
-

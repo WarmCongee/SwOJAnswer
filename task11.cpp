@@ -1,67 +1,41 @@
 //
-// Created by WarmCongee on 2022/9/20.
+// Created by WarmCongee on 2022/9/21.
 //
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
+int task11(){
+    int num_a, num_b;
+    std::cin>>num_a>>num_b;
 
-bool calculate(int num_a, std::vector<std::tuple<int, bool>> num_map) {
-    bool end_flag = true;
-    for (auto var: num_map) {
-        if (!std::get<1>(var)) {
-            end_flag = false;
-            break;
+    bool re_flag = false;
+    int temp = num_a;
+    if( num_b == 0){
+        re_flag = false;
+    } else if( temp == 1){
+        if (num_b != 0){
+            re_flag = true;
+        } else {
+            re_flag = false;
         }
-    }
-
-    if (num_a == 24 && end_flag) {
-        return true;
-    } else if (end_flag) {
-        return false;
     } else {
-        bool re_flag = false;
-        for (int i = 0; i < num_map.size(); i++) {
-            if (!std::get<1>(num_map[i])) {
-                std::vector<std::tuple<int, bool>> next_num_map(num_map);
-                std::get<1>(next_num_map[i]) = true;
-                if (calculate(num_a + std::get<0>(next_num_map[i]), next_num_map) ||
-                    calculate(num_a - std::get<0>(next_num_map[i]), next_num_map) ||
-                    calculate(num_a * std::get<0>(next_num_map[i]), next_num_map) ||
-                    calculate(num_a / std::get<0>(next_num_map[i]), next_num_map)) {
-                    re_flag = true;
-                }
-            }
-        }
-        return re_flag;
-    }
-
-}
-
-int task11() {
-    int nums[4];
-    std::cin >> nums[0] >> nums[1] >> nums[2] >> nums[3];
-    std::vector<std::tuple<int, bool>> num_map_;
-    for(int i = 0; i < 4; i++){
-        num_map_.emplace_back(nums[i], false);
-    }
-
-    bool result_flag = false;
-    for (int i = 0; i < num_map_.size(); i++) {
-        if (!std::get<1>(num_map_[i])) {
-            std::vector<std::tuple<int, bool>> next_num_map(num_map_);
-            std::get<1>(next_num_map[i]) = true;
-            if (calculate(std::get<0>(next_num_map[i]), next_num_map)) {
-                result_flag =  true;
+        while (temp != 0){
+            if(temp == 1){
+                re_flag = true;
+                break;
+            } else if(temp % num_b != 0) {
+                re_flag = false;
                 break;
             }
+            temp /= num_b;
         }
     }
 
-    if(result_flag) {
-        std::cout<<"true";
+    if(re_flag){
+        std::cout<<1;
     } else {
-        std::cout<<"false";
+        std::cout<<0;
     }
 
     return 0;

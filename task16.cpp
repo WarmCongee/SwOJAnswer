@@ -2,64 +2,55 @@
 // Created by WarmCongee on 2022/9/22.
 //
 #include <iostream>
-#include <vector>
-#include <stack>
 #include <algorithm>
+#include <vector>
+#include <string>
 
 using namespace std;
 
-string caculateRes(string str);
-char get_one_answer(vector<char> chars_);
+int effectiveSub(std::vector<int>& nums);
 
-int task16()
-
-{
-
+int task16() {
     string str;
 
-    cin>>str;
+    getline(cin, str);
 
-    cout<<caculateRes(str);
+    vector<int> chars;
+    for(int i = 0; i < str.length(); i++){
+        if(str.at(i) != ' ' && str.at(i) != 'q') {
+            chars.push_back(str.at(i) - 48);
+        }
+    }
+
+
+    std::cout<<effectiveSub(chars);
 
     return 0;
 
 }
 
-string caculateRes(string str) {
-    vector<char> chars;
-    for(int i = 0; i < str.size(); i++){
-        chars.push_back(str.at(i));
-    }
-    string s(1,get_one_answer(chars));
-    return s;
-}
+int effectiveSub(std::vector<int>& nums) {
+    int sum = nums.size();
+    int re = 0;
+    for(int i = 1; i <= sum; i++){
 
-char get_one_answer(vector<char> chars_){
-    if(chars_[1] != '?'){
-        return chars_[0];
-    } else {
-        if(chars_[0] == 'F' || chars_[0] == '0'){
-
-            int count = 0;
-            bool flag = false;
-            for(int i = 0; i < (chars_.size()-1)/2; i++){
-
-                if(chars_[(i+1)*2-1] == '?'){
-                    count++;
-                } else if(chars_[(i+1)*2-1] == ':'){
-                    count--;
+        for(int j = 0; j <= sum-i; j++){
+            int count_0 = 0;
+            int count_1 = 0;
+            for(int k = j; k < j+i; k++){
+                if(nums[k]){
+                    count_1++;
+                } else {
+                    count_0++;
                 }
-                if(flag && count == 0){
-                    vector<char> new_chars_(chars_.begin()+(i+1)*2,chars_.end());
-                    return get_one_answer(new_chars_);
-                }
-                flag = true;
             }
-        } else {
-            vector<char> new_chars_(chars_.begin()+2,chars_.end());
-            return get_one_answer(new_chars_);
+
+            if(count_1>count_0){
+                re++;
+            }
         }
     }
+    return re;
 }
 
 

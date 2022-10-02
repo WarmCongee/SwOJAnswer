@@ -1,67 +1,72 @@
 //
-// Created by WarmCongee on 2022/9/22.
+// Created by WarmCongee on 2022/9/26.
 //
+
 #include <iostream>
-#include <algorithm>
 #include <vector>
 #include <string>
 
-int get_steps(std::vector<int>& nums, int sum, int target_sum, int front_flag, int back_flag){
-    int sum_head = 0;
-    int sum_tail = 0;
-
-    if(sum == target_sum){
-        return 1;
-    } else if (sum > target_sum || front_flag > back_flag){
-        return -1;
-    } else {
-        int a = get_steps(nums, sum+nums[front_flag], target_sum, front_flag+1, back_flag);
-        int b = get_steps(nums, sum+nums[back_flag], target_sum, front_flag, back_flag-1);
-
-        if(a == -1 && b == -1){
-            return -1;
-        } else if (a == -1) {
-            return b+1;
-        } else if (b == -1) {
-            return a+1;
-        } else {
-            return ((a<b)?a:b)+1;
+std::vector<std::string> split_str(std::string expression){
+    std::string str(expression.begin()+2,expression.end()-1);
+    std::vector<std::string> str_vec;
+    int begin_index = 0;
+    int end_index = 0;
+    int count = 0;
+    for(int i = 0; i < str.length(); i++){
+        end_index = i;
+        if(str[i]=='('){
+            count++;
+        } else if(str[i]==')'){
+            count--;
+        }
+        if(count == 0 && str[i]==','){
+            std::string new_str(str.begin()+begin_index,str.begin()+end_index);
+            str_vec.push_back(new_str);
+            begin_index = i+1;
         }
     }
+    std::string new_str(str.begin()+begin_index,str.end());
+    str_vec.push_back(new_str);
+    return str_vec;
 }
 
-
-int task18(){
-    int target_sum_;
-    std::cin>>target_sum_;
-    std::vector<int> nums;
-    int temp=0;
-    while(std::cin >> temp) {
-        nums.push_back(temp); //填充数据
+bool trueOrFalse(std::string expression) {
+    if(expression.length() == 1){
+        return (expression == "t");
     }
+    bool re_flag;
+    if(expression[0] == '!') {
+        std::string str(expression.begin()+2,expression.end()-1);
+        return !trueOrFalse(str);
+    } else if(expression[0] == '&') {
+        re_flag = true;
+        std::vector<std::string> str_vec = split_str(expression);
 
-
-    if(nums.size()>=2){
-        int a = get_steps(nums, nums[0], target_sum_, 1, nums.size()-1);
-        int b = get_steps(nums, nums[nums.size()-1], target_sum_, 0, nums.size()-2);
-        if(a == -1 && b == -1){
-            std::cout<< -1;
-        } else if (a == -1) {
-            std::cout<< b;
-        } else if (b == -1) {
-            std::cout<< a;
-        } else {
-            std::cout<< ((a<b)?a:b);
+        for (auto var: str_vec){
+            if(!trueOrFalse(var)){
+                re_flag = false;
+            }
         }
+        return re_flag;
     } else {
-        if(nums[0] == target_sum_){
-            std::cout<<1;
-        } else {
-            std::cout<<-1;
+        re_flag = false;
+        std::vector<std::string> str_vec = split_str(expression);
+        for (auto var: str_vec){
+            if(trueOrFalse(var)){
+                re_flag = true;
+            }
         }
+        return re_flag;
     }
 
 
+}
+
+int task18() {
+    std::string str;
+    std::cin >> str;
+    std::cout << trueOrFalse(str) << std::endl;
 
     return 0;
+
 }
