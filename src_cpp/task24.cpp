@@ -80,6 +80,7 @@ vector<string> split(const string& str, const string& delim) {
 }
 
 
+/*
 int main(){
     std::string str;
     std::cin>>str;
@@ -100,4 +101,4 @@ int main(){
         std::cout<<"false";
     }
     return 0;
-}
+}*/
