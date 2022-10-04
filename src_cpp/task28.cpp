@@ -19,7 +19,7 @@ bool find_source(int n, int k){
     }
 }
 
-int main(){
+int task28(){
     int n = 0;
     int k = 0;
     std::cin >> n >> k;
