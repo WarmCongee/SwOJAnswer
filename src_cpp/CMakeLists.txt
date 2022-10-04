@@ -3,4 +3,4 @@ project(algorithm_cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(algorithm_cpp main.cpp task29.cpp)
+add_executable(algorithm_cpp main.cpp task30.cpp)

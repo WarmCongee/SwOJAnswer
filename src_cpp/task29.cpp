@@ -37,7 +37,7 @@ void load_list(std::vector<int>& nums, int start, bool& end){
 }
 
 
-int main(){
+int task29(){
     int n = 0;
     std::cin>>n;
     std::vector<int> nums;
