@@ -20,7 +20,7 @@ long long quick_pow(long long a, long long n)
     }
 }
 
-int main(){
+int task27(){
     int n = 0;
     std::cin>>n;
 
